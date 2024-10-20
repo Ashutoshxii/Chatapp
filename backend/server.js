@@ -1,9 +1,25 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require('dotenv');
+const cors = require("cors");
+dotenv.config();
+const UserModel = require("./models/Users")
+
+const PORT = process.env.PORT;
 
 const app = express()
+app.use(express.json())
+app.use(cors())
 
-app.get('/', (req,res) =>{
-    res.send("API is running");
+mongoose.connect("mongodb://127.0.0.1:27017/chatapp_users");
+console.log("DB connected");
+
+app.post('/signup', (req, res) => {
+    UserModel.create(req.body)
+    .then(users => res.json(users))
+    .catch(err => res.json(err))
 })
 
-app.listen(5000,console.log("Server started on PORT 5000"));
+
+
+app.listen(PORT,console.log(`Server started on PORT ${PORT}`));
