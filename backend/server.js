@@ -14,6 +14,25 @@ app.use(cors())
 mongoose.connect("mongodb://127.0.0.1:27017/chatapp_users");
 console.log("DB connected");
 
+app.post('/login', (req, res) => {
+    const {email,password} = req.body ; 
+    UserModel.findOne({email:email})
+    .then(users => {
+        if(users){
+            if(users.password===password){
+                res.json("Success")
+            }
+            else{
+                res.json("Password  is wrong ")
+            }
+        }
+        else{
+            res.json("user don't exist ") 
+        }
+    })
+    .catch(err => res.json(err))
+})
+
 app.post('/signup', (req, res) => {
     UserModel.create(req.body)
     .then(users => res.json(users))

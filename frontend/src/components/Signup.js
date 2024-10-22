@@ -20,7 +20,7 @@ const Signup = () => {
     }
 
   return (
-    <div>
+    <div >
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name: </label>

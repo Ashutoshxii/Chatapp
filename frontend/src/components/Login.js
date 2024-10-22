@@ -1,24 +1,66 @@
-import React from 'react'
-// import './Login.css';
+import React, { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // sending signup data to backend API
+    // axios.post('http://localhost:5000/register', {name, email, username, password})
+    // axios
+    //   .post("http://localhost:5000/login", { email, password })
+    //   .then((result) => {
+    //     console.log(result);
+    //     // if(result.data==="Success"){
+    //     //   navigate('home')
+    //     // }
+    //   })
+    //   .catch((err) => console.log(err));
+    axios
+  .post("http://localhost:5000/login", { email, password })
+  .then((result) => {
+    console.log(result.data); // Log the response data
+    if (result.data === "Success") {
+      // Handle successful login, like navigating to another page
+      console.log("Login Successful");
+    } else {
+      console.log("Login Failed: " + result.data);
+    }
+  })
+  .catch((err) => console.log(err));
+  };
   return (
-    <div className="login-container">
-    <form className="login-form" autoComplete="off">
-  <h2>Login</h2>
-  <div className="form-group">
-    <label htmlFor="username">Username</label>
-    <input type="text" id="username" name="username" autoComplete="off" required />
-  </div>
-  <div className="form-group">
-    <label htmlFor="password">Password</label>
-    <input type="password" id="password" name="password" autoComplete="off" required />
-  </div>
-  <button type="submit" className="login-button">Login</button>
-</form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <h2>login</h2>
 
-  </div>
-  )
-}
+        <div>
+          <label>Email: </label>
+          <input
+            type="email"
+            name="email"
+            autoComplete="off"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
 
-export default Login
+        <div>
+          <label>Password: </label>
+          <input
+            type="password"
+            name="password"
+            autoComplete="off"
+            required
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <button type="submit">login</button>
+      </form>
+    </div>
+  );
+};
+
+export default Login;
